@@ -1,0 +1,62 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+
+	<display-name>Archetype Created Web Application</display-name>
+
+
+	<!-- Auto scan REST service, else set dependency on scannotation jar. Remember 
+		to set “resteasy.scan” to true, so that RESTEasy will find and register your 
+		REST service automatically -->
+	<!-- 
+	<context-param>
+		<param-name>resteasy.scan</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	 -->
+	
+	<context-param>
+		<param-name>resteasy.resources</param-name>
+		<param-value>com.resteasy.demo.JSONService</param-value>
+	</context-param>
+
+	<!-- this need same with resteasy servlet url-pattern. You need to set the 
+		“resteasy.servlet.mapping.prefix” if your servlet-mapping for the resteasy 
+		servlet has a url-pattern other than “/*“. -->
+	<context-param>
+		<param-name>resteasy.servlet.mapping.prefix</param-name>
+		<param-value>/rest</param-value>
+	</context-param>
+
+	<!-- The initialization of RESTEasy can be performed within a ServletContextListener 
+		instead of within the Servlet. You may need this if you are writing custom 
+		Listeners that need to interact with RESTEasy at boot time. An example of 
+		this is the RESTEasy Spring integration that requires a Spring ServletContextListener. 
+		The org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap class is 
+		a ServletContextListener that configures an instance of an ResteasyProviderFactory 
+		and Registry. You can obtain instances of a ResteasyProviderFactory and Registry 
+		from the ServletContext attributes org.jboss.resteasy.spi.ResteasyProviderFactory 
+		and org.jboss.resteasy.spi.Registry. -->
+	<listener>
+		<listener-class>
+			org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
+		</listener-class>
+	</listener>
+
+	<!-- ** INSERT YOUR LISTENERS HERE!!!! -->
+
+	<servlet>
+		<servlet-name>resteasy-servlet</servlet-name>
+		<servlet-class>
+			org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>resteasy-servlet</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	
+</web-app>
